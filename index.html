@@ -1,14 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Una pagina</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprender Letras y Números</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            margin: 0;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #letra {
+            font-size: 30vw;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<h1>cualquier cosa</h1>
-<h2>otra cosa para la pagina</h2>
+    <div id="letra">A</div>
+    <script>
+        const letraElemento = document.getElementById("letra");
+        let ultimaLetra = ""; // Guarda la última letra o número mostrado
+        
+        function obtenerColorAleatorio() {
+            return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+        }
+        
+        function decirLetra(letra) {
+            const speech = new SpeechSynthesisUtterance(letra.toLowerCase());
+            speech.lang = "es-ES";
+            speech.rate = 0.8;
+            window.speechSynthesis.speak(speech);
+        }
+        
+        document.addEventListener("keydown", (event) => {
+            let letra = event.key.toUpperCase();
 
-<img src="foto.jpg">
+            // Verificar si es una letra (incluyendo Ñ) o un número
+            if (/^[A-ZÑ0-9]$/.test(letra) && letra !== ultimaLetra) {
+                ultimaLetra = letra; // Guardar la nueva letra
+                letraElemento.textContent = letra;
+                letraElemento.style.color = obtenerColorAleatorio();
+                decirLetra(letra);
+            }
+        });
+    </script>
 </body>
 </html>
